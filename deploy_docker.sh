@@ -5,6 +5,7 @@ if [ "${TRAVIS_BRANCH}" == "develop" ]; then
     IMAGETAG=develop
 elif [ "${TRAVIS_BRANCH}" == "master" ]; then
     IMAGETAG=$( docker run -it openstudio-r:latest printenv R_VERSION )
+    echo "Found R Version: $IMAGETAG"
 #    OUT=$?
 #    if [ $OUT -eq 0 ]; then
 #        IMAGETAG=$( echo $IMAGETAG | tr -d '\r' )
