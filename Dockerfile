@@ -103,4 +103,8 @@ RUN curl -fSL -o R.tar.gz "http://cran.fhcrc.org/src/base/R-$R_MAJOR_VERSION/R-$
     && make -j$(nproc) \
     && make install
 
+# Add in the additional R packages
+ADD /base_packages.R base_packages.R
+RUN Rscript base_packages.R
+
 CMD [ "/usr/local/bin/R" ]
