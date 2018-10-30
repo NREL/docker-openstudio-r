@@ -28,6 +28,7 @@ RUN apt-get update \
         libffi-dev \
         libssl-dev \
         libyaml-dev \
+        libgmp3-dev \
         procps \
         ruby \
         ruby-dev \
