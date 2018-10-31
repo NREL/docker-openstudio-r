@@ -33,44 +33,8 @@
 # EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # *******************************************************************************
 
-# If changing this file, then it is recommended to update the version.R file as well
-# to create a new release based on the updated dependencies.
+# Add in a version extension that will used for denoting the version of these packages.
+# Can be an empty string, if not an empty string, then it should be in the form of -<number>, e.g. -2
+VERSION_EXT='-2'
 
-# Function for installing and verifying that the package was installed correctly (i.e. can be loaded)
-install_and_verify = function(package_name, configure.args=c(), repos=c('http://cloud.r-project.org','http://cran.r-project.org')){
-    print(paste('Calling install for package ', package_name, sep=''))
-    install.packages(package_name, configure.args=configure.args, repos=repos)
-    if (!require(package_name, character.only = TRUE)){
-        print('Error installing package, check log')
-        quit(status=1)
-    }
-    print(paste('Successfully installed and test loaded ', package_name, sep=''))
-}
-
-# Install Base Packages
-install_and_verify('R.methodsS3')
-install_and_verify('R.oo')
-install_and_verify('R.utils')
-install_and_verify('Rcpp')
-install_and_verify('rjson')
-install_and_verify('RSQLite')
-install_and_verify('RUnit')
-
-# Data Manipulation
-install_and_verify('plyr')
-install_and_verify('reshape2')
-
-# timeseries
-install_and_verify('xts')
-
-# plotting / visualization
-install_and_verify('cowplot')
-install_and_verify('ggplot2')
-install_and_verify('ggsci')
-install_and_verify('vcd')
-
-# parallel processing
-install_and_verify('doMC')
-install_and_verify('doParallel')
-install_and_verify('foreach')
-install_and_verify('iterators')
+print(VERSION_EXT)

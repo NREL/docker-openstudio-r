@@ -4,14 +4,18 @@ IMAGETAG=skip
 if [ "${TRAVIS_BRANCH}" == "develop" ]; then
     IMAGETAG=develop
 elif [ "${TRAVIS_BRANCH}" == "master" ]; then
-    IMAGETAG=$( docker run -it openstudio-r:latest printenv R_VERSION )
+    VERSION=$( docker run -it openstudio-r:latest printenv R_VERSION )
     OUT=$?
+
+    # Extended version (independent of $OUT)
+    VERSION_EXT=$( docker run -it openstudio-r:latest Rscript version.R | grep -o '".*"' | tr -d '"' )
+
     if [ $OUT -eq 0 ]; then
         # strip off the \r that is in the result of the docker run command
-        IMAGETAG=$( echo $IMAGETAG | tr -d '\r' )
-        echo "Found R Version: $IMAGETAG"
+        IMAGETAG=$( echo $VERSION | tr -d '\r' )$(VERSION_EXT)
+        echo "Found Version: $IMAGETAG"
     else
-        echo "ERROR Trying to find R Version"
+        echo "ERROR Trying to find Version"
         IMAGETAG=skip
     fi
 fi
