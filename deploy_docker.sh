@@ -12,7 +12,7 @@ elif [ "${TRAVIS_BRANCH}" == "master" ]; then
 
     if [ $OUT -eq 0 ]; then
         # strip off the \r that is in the result of the docker run command
-        IMAGETAG=$( echo $VERSION | tr -d '\r' )$(VERSION_EXT)
+        IMAGETAG=$( echo $VERSION | tr -d '\r' )$VERSION_EXT
         echo "Found Version: $IMAGETAG"
     else
         echo "ERROR Trying to find Version"
