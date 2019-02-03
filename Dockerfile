@@ -5,14 +5,18 @@ FROM ubuntu:14.04
 MAINTAINER Nicholas Long nicholas.long@nrel.gov
 
 # Install a bunch of dependencies for building R
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
+
+RUN sudo apt-get update \
+      && sudo apt-get install -y software-properties-common \
+      && sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test \
+      && sudo apt-get update \
+      && sudo apt-get install g++-7
+RUN apt-get install -y --no-install-recommends \
         autoconf \
         bison \
         build-essential \
         bzip2 \
         ca-certificates \
-		clang \
         curl \
         imagemagick \
         gdebi-core \
@@ -82,6 +86,7 @@ RUN apt-get update \
         libxss1 \
         libxt-dev \
         mpack \
+		sudo \
         tcl8.5 \
         tcl8.5-dev \
         tk8.5 \
@@ -101,7 +106,7 @@ RUN curl -fSL -o R.tar.gz "http://cran.fhcrc.org/src/base/R-$R_MAJOR_VERSION/R-$
 	&& rm R.tar.gz \
 	&& cd /usr/src/R \
     && sed -i 's/NCONNECTIONS 128/NCONNECTIONS 2560/' src/main/connections.c \
-    && ./configure --enable-R-shlib CC=clang CXX=clang++ CXX14=clang++ CXX14STD='-std=c++14' \
+    && ./configure --enable-R-shlib CC=gcc-7 CXX=g++-7 \
     && make -j$(nproc) \
     && make install
 
