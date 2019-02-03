@@ -12,6 +12,7 @@ RUN apt-get update \
         build-essential \
         bzip2 \
         ca-certificates \
+		clang \
         curl \
         imagemagick \
         gdebi-core \
@@ -100,7 +101,7 @@ RUN curl -fSL -o R.tar.gz "http://cran.fhcrc.org/src/base/R-$R_MAJOR_VERSION/R-$
 	&& rm R.tar.gz \
 	&& cd /usr/src/R \
     && sed -i 's/NCONNECTIONS 128/NCONNECTIONS 2560/' src/main/connections.c \
-    && ./configure --enable-R-shlib \
+    && ./configure --enable-R-shlib CC=clang CXX=clang++ CXX14=clang++ CXX14STD='-std=c++14' \
     && make -j$(nproc) \
     && make install
 
