@@ -10,7 +10,7 @@ RUN sudo apt-get update \
       && sudo apt-get install -y software-properties-common \
       && sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test \
       && sudo apt-get update \
-      && sudo apt-get install g++-7
+      && sudo apt-get install -y g++-7
 RUN apt-get install -y --no-install-recommends \
         autoconf \
         bison \
@@ -86,7 +86,6 @@ RUN apt-get install -y --no-install-recommends \
         libxss1 \
         libxt-dev \
         mpack \
-		sudo \
         tcl8.5 \
         tcl8.5-dev \
         tk8.5 \
