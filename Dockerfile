@@ -1,12 +1,14 @@
 # AUTHOR:           Nicholas Long
 # DESCRIPTION:      OpenStudio R Base Container
 
-FROM ubuntu:14.04
+FROM ubuntu:18.04
 MAINTAINER Nicholas Long nicholas.long@nrel.gov
 
 # Install a bunch of dependencies for building R
+
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
+        && DEBIAN_FRONTEND=noninteractive apt-get install tzdata
+RUN apt-get install -y --no-install-recommends \
         autoconf \
         bison \
         build-essential \
@@ -18,7 +20,7 @@ RUN apt-get update \
         git \
         libbz2-dev \
         libcurl4-openssl-dev \
-        libgdbm3 \
+#        libgdbm3 \
         libgdbm-dev \
         libglib2.0-dev \
         libncurses-dev \
@@ -40,7 +42,7 @@ RUN apt-get update \
         debhelper \
         fonts-cabin \
         fonts-comfortaa \
-        fonts-droid \
+#        fonts-droid \
         fonts-font-awesome \
         fonts-freefont-otf \
         fonts-freefont-ttf \
@@ -73,7 +75,7 @@ RUN apt-get update \
         libkpathsea6 \
         liblapack-dev \
         liblzma-dev \
-        libpoppler44 \
+#        libpoppler44 \
         libtcl8.5 \
         libtiff5-dev \
         libtk8.5 \
@@ -81,6 +83,7 @@ RUN apt-get update \
         libxss1 \
         libxt-dev \
         mpack \
+		sudo \
         tcl8.5 \
         tcl8.5-dev \
         tk8.5 \
@@ -100,7 +103,7 @@ RUN curl -fSL -o R.tar.gz "http://cran.fhcrc.org/src/base/R-$R_MAJOR_VERSION/R-$
 	&& rm R.tar.gz \
 	&& cd /usr/src/R \
     && sed -i 's/NCONNECTIONS 128/NCONNECTIONS 2560/' src/main/connections.c \
-    && ./configure --enable-R-shlib \
+    && ./configure --enable-R-shlib CXX14=g++ CXX14STD='-std=c++14' \
     && make -j$(nproc) \
     && make install
 
