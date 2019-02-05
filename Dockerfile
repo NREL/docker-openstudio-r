@@ -7,7 +7,11 @@ MAINTAINER Nicholas Long nicholas.long@nrel.gov
 # Install a bunch of dependencies for building R
 
 RUN apt-get update \
-        && DEBIAN_FRONTEND=noninteractive apt-get install tzdata
+      && apt-get install -y software-properties-common \
+      && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
+      && apt-get update \
+      && apt-get install -y g++-7
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
 RUN apt-get install -y --no-install-recommends \
         autoconf \
         bison \
@@ -20,7 +24,7 @@ RUN apt-get install -y --no-install-recommends \
         git \
         libbz2-dev \
         libcurl4-openssl-dev \
-#        libgdbm3 \
+     #   libgdbm3 \
         libgdbm-dev \
         libglib2.0-dev \
         libncurses-dev \
@@ -42,7 +46,7 @@ RUN apt-get install -y --no-install-recommends \
         debhelper \
         fonts-cabin \
         fonts-comfortaa \
-#        fonts-droid \
+        fonts-droid-fallback \
         fonts-font-awesome \
         fonts-freefont-otf \
         fonts-freefont-ttf \
@@ -83,7 +87,6 @@ RUN apt-get install -y --no-install-recommends \
         libxss1 \
         libxt-dev \
         mpack \
-		sudo \
         tcl8.5 \
         tcl8.5-dev \
         tk8.5 \
@@ -93,9 +96,9 @@ RUN apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 #### Build R and install R packages.
-ENV R_VERSION 3.4.2
+ENV R_VERSION 3.5.2
 ENV R_MAJOR_VERSION 3
-ENV R_SHA 971e30c2436cf645f58552905105d75788bd9733bddbcb7c4fbff4c1a6d80c64
+ENV R_SHA e53d8c3cf20f2b8d7a9c1631b6f6a22874506fb392034758b3bb341c586c5b62
 RUN curl -fSL -o R.tar.gz "http://cran.fhcrc.org/src/base/R-$R_MAJOR_VERSION/R-$R_VERSION.tar.gz" \
     && echo "$R_SHA R.tar.gz" | sha256sum -c - \
     && mkdir /usr/src/R \
@@ -103,7 +106,7 @@ RUN curl -fSL -o R.tar.gz "http://cran.fhcrc.org/src/base/R-$R_MAJOR_VERSION/R-$
 	&& rm R.tar.gz \
 	&& cd /usr/src/R \
     && sed -i 's/NCONNECTIONS 128/NCONNECTIONS 2560/' src/main/connections.c \
-    && ./configure --enable-R-shlib CXX14=g++ CXX14STD='-std=c++14' \
+    && ./configure --enable-R-shlib CC=gcc-7 CXX=g++-7 \
     && make -j$(nproc) \
     && make install
 
