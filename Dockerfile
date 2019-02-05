@@ -6,11 +6,11 @@ MAINTAINER Nicholas Long nicholas.long@nrel.gov
 
 # Install a bunch of dependencies for building R
 
-RUN sudo apt-get update \
-      && sudo apt-get install -y software-properties-common \
-      && sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test \
-      && sudo apt-get update \
-      && sudo apt-get install -y g++-7
+RUN apt-get update \
+      && apt-get install -y software-properties-common \
+      && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
+      && apt-get update \
+      && apt-get install -y g++-7
 RUN apt-get install -y --no-install-recommends \
         autoconf \
         bison \
