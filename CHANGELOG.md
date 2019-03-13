@@ -1,5 +1,13 @@
 # Docker OpenStudio R - Base Image
 
+## 3.5.2-2 - 2018-10-30
+
+* Upgrade base box to Ubuntu 16.04 (xenial)
+
+## 3.5.2-1 - 2018-10-30
+
+* Update to R 3.5.2
+
 ## 3.4.2-2 - 2018-10-30
 
 * Add libgmp3-dev to dependencies to support newer DoE.base package
