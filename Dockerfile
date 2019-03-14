@@ -1,7 +1,7 @@
 # AUTHOR:           Nicholas Long
 # DESCRIPTION:      OpenStudio R Base Container
 
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 MAINTAINER Nicholas Long nicholas.long@nrel.gov
 
 # Install a bunch of dependencies for building R
@@ -45,7 +45,7 @@ RUN apt-get install -y --no-install-recommends \
         debhelper \
         fonts-cabin \
         fonts-comfortaa \
-        fonts-droid \
+        fonts-droid-fallback \
         fonts-font-awesome \
         fonts-freefont-otf \
         fonts-freefont-ttf \
@@ -78,7 +78,7 @@ RUN apt-get install -y --no-install-recommends \
         libkpathsea6 \
         liblapack-dev \
         liblzma-dev \
-        libpoppler44 \
+#        libpoppler44 \
         libtcl8.5 \
         libtiff5-dev \
         libtk8.5 \

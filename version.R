@@ -1,5 +1,5 @@
 # *******************************************************************************
-# OpenStudio(R), Copyright (c) 2008-2018, Alliance for Sustainable Energy, LLC.
+# OpenStudio(R), Copyright (c) 2008-2019, Alliance for Sustainable Energy, LLC.
 # All rights reserved.
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -35,6 +35,6 @@
 
 # Add in a version extension that will used for denoting the version of these packages.
 # Can be an empty string, if not an empty string, then it should be in the form of -<number>, e.g. -2
-VERSION_EXT='-1'
+VERSION_EXT='-2'
 
 print(VERSION_EXT)
