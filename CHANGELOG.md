@@ -1,5 +1,9 @@
 # Docker OpenStudio R - Base Image
 
+## 3.6.1 - 2019-10-21
+
+* Upgrade to R 3.6.1
+
 ## 3.5.2-2 - 2018-10-30
 
 * Upgrade base box to Ubuntu 16.04 (xenial)
