@@ -37,6 +37,7 @@ RUN apt-get install -y --no-install-recommends \
         procps \
         ruby \
         ruby-dev \
+        sudo \
         tar \
         unzip \
         wget \
