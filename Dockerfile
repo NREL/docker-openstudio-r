@@ -37,6 +37,7 @@ RUN apt-get install -y --no-install-recommends \
         procps \
         ruby \
         ruby-dev \
+        sudo \
         tar \
         unzip \
         wget \
@@ -95,9 +96,9 @@ RUN apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 #### Build R and install R packages.
-ENV R_VERSION 3.5.2
+ENV R_VERSION 3.6.1
 ENV R_MAJOR_VERSION 3
-ENV R_SHA e53d8c3cf20f2b8d7a9c1631b6f6a22874506fb392034758b3bb341c586c5b62
+ENV R_SHA 5baa9ebd3e71acecdcc3da31d9042fb174d55a42829f8315f2457080978b1389
 RUN curl -fSL -o R.tar.gz "http://cran.fhcrc.org/src/base/R-$R_MAJOR_VERSION/R-$R_VERSION.tar.gz" \
     && echo "$R_SHA R.tar.gz" | sha256sum -c - \
     && mkdir /usr/src/R \
