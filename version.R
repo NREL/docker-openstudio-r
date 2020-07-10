@@ -35,6 +35,6 @@
 
 # Add in a version extension that will used for denoting the version of these packages.
 # Can be an empty string, if not an empty string, then it should be in the form of -<number>, e.g. -2
-VERSION_EXT=''
+VERSION_EXT='-1'
 
 print(VERSION_EXT)

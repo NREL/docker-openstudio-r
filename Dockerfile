@@ -1,7 +1,7 @@
 # AUTHOR:           Nicholas Long
 # DESCRIPTION:      OpenStudio R Base Container
 
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 MAINTAINER Nicholas Long nicholas.long@nrel.gov
 
 # Install a bunch of dependencies for building R
@@ -11,6 +11,7 @@ RUN apt-get update \
       && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
       && apt-get update \
       && apt-get install -y g++-7
+RUN DEBIAN_FRONTEND=noninteractive apt-get install tzdata
 RUN apt-get install -y --no-install-recommends \
         autoconf \
         bison \
@@ -23,7 +24,6 @@ RUN apt-get install -y --no-install-recommends \
         git \
         libbz2-dev \
         libcurl4-openssl-dev \
-        libgdbm3 \
         libgdbm-dev \
         libglib2.0-dev \
         libncurses-dev \
@@ -35,7 +35,7 @@ RUN apt-get install -y --no-install-recommends \
         libyaml-dev \
         libgmp3-dev \
         procps \
-        ruby \
+        ruby2.5 \
         ruby-dev \
         sudo \
         tar \
@@ -79,7 +79,6 @@ RUN apt-get install -y --no-install-recommends \
         libkpathsea6 \
         liblapack-dev \
         liblzma-dev \
-#        libpoppler44 \
         libtcl8.5 \
         libtiff5-dev \
         libtk8.5 \
