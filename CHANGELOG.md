@@ -1,5 +1,9 @@
 # Docker OpenStudio R - Base Image
 
+## 3.6.1-1 - 2020-07-11
+
+* Migrate base image to ubuntu 18.04
+
 ## 3.6.1 - 2019-10-21
 
 * Upgrade to R 3.6.1
