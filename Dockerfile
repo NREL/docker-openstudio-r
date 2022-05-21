@@ -1,7 +1,7 @@
 # AUTHOR:           Nicholas Long
 # DESCRIPTION:      OpenStudio R Base Container
 
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 MAINTAINER Nicholas Long nicholas.long@nrel.gov
 
 # Install a bunch of dependencies for building R
@@ -35,7 +35,7 @@ RUN apt-get install -y --no-install-recommends \
         libyaml-dev \
         libgmp3-dev \
         procps \
-        ruby2.5 \
+        ruby2.7 \
         ruby-dev \
         sudo \
         tar \
