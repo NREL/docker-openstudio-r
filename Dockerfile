@@ -9,8 +9,7 @@ MAINTAINER Nicholas Long nicholas.long@nrel.gov
 RUN apt-get update \
       && apt-get install -y software-properties-common \
       && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
-      && apt-get update \
-      && apt-get install -y g++-7
+      && apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install tzdata
 RUN apt-get install -y --no-install-recommends \
         autoconf \
@@ -79,33 +78,25 @@ RUN apt-get install -y --no-install-recommends \
         libkpathsea6 \
         liblapack-dev \
         liblzma-dev \
-        libtcl8.5 \
         libtiff5-dev \
-        libtk8.5 \
         libxml-libxml-perl \
         libxss1 \
         libxt-dev \
         mpack \
-        tcl8.5 \
-        tcl8.5-dev \
-        tk8.5 \
-        tk8.5-dev \
-        ttf-adf-accanthis \
-        ttf-adf-gillius \
     && rm -rf /var/lib/apt/lists/*
 
 #### Build R and install R packages.
-ENV R_VERSION 3.6.1
-ENV R_MAJOR_VERSION 3
-ENV R_SHA 5baa9ebd3e71acecdcc3da31d9042fb174d55a42829f8315f2457080978b1389
-RUN curl -fSL -o R.tar.gz "http://cran.fhcrc.org/src/base/R-$R_MAJOR_VERSION/R-$R_VERSION.tar.gz" \
+ENV R_VERSION 4.2.0
+ENV R_MAJOR_VERSION 4
+ENV R_SHA 38eab7719b7ad095388f06aa090c5a2b202791945de60d3e2bb0eab1f5097488
+RUN curl -fSL -o R.tar.gz "http://cran.r-project.org/src/base/R-$R_MAJOR_VERSION/R-$R_VERSION.tar.gz" \
     && echo "$R_SHA R.tar.gz" | sha256sum -c - \
     && mkdir /usr/src/R \
     && tar -xzf R.tar.gz -C /usr/src/R --strip-components=1 \
 	&& rm R.tar.gz \
 	&& cd /usr/src/R \
     && sed -i 's/NCONNECTIONS 128/NCONNECTIONS 2560/' src/main/connections.c \
-    && ./configure --enable-R-shlib CC=gcc-7 CXX=g++-7 \
+    && ./configure --enable-R-shlib CC=gcc-9 CXX=g++-9 \
     && make -j$(nproc) \
     && make install
 
