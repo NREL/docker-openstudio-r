@@ -1,5 +1,10 @@
 # Docker OpenStudio R - Base Image
 
+## 4.2.0 - 2022-05-24
+
+* Upgrade to R 4.2.0
+* Migrate base image to ubuntu 20.04
+
 ## 3.6.1-1 - 2020-07-11
 
 * Migrate base image to ubuntu 18.04

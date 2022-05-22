@@ -34,8 +34,6 @@ RUN apt-get install -y --no-install-recommends \
         libyaml-dev \
         libgmp3-dev \
         procps \
-        ruby2.7 \
-        ruby-dev \
         sudo \
         tar \
         unzip \
@@ -84,6 +82,12 @@ RUN apt-get install -y --no-install-recommends \
         libxt-dev \
         mpack \
     && rm -rf /var/lib/apt/lists/*
+
+RUN curl -SLO https://cache.ruby-lang.org/pub/ruby/2.7/ruby-2.7.2.tar.gz \
+    && tar -xvzf ruby-2.7.2.tar.gz \
+    && cd ruby-2.7.2 \
+    && ./configure \
+    && make && make install 
 
 #### Build R and install R packages.
 ENV R_VERSION 4.2.0
