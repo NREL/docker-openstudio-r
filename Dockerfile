@@ -5,13 +5,11 @@ FROM ubuntu:20.04
 MAINTAINER Nicholas Long nicholas.long@nrel.gov
 
 # Install a bunch of dependencies for building R
-
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
-      && apt-get install -y software-properties-common \
-      && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
-      && apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install tzdata
-RUN apt-get install -y --no-install-recommends \
+        && apt-get install -y software-properties-common \
+        && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
+        && apt-get update && apt-get install -y --no-install-recommends \
         autoconf \
         bison \
         build-essential \
@@ -36,6 +34,7 @@ RUN apt-get install -y --no-install-recommends \
         procps \
         sudo \
         tar \
+        tzdata \
         unzip \
         wget \
         zip \
