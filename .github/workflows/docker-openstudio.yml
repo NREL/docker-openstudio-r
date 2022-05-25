@@ -1,0 +1,32 @@
+name: openstudio-docker
+
+on: [push, pull_request]
+
+# example of how to restrict to one branch and push event
+#on:
+#  push:
+#    branches:
+#      - test_branch
+
+jobs:
+  docker:
+    runs-on: ubuntu-20.04
+    steps: 
+    - uses: actions/checkout@v2
+      run: |
+          docker build -t openstudio-r:latest .
+    - name: test build
+      shell: bash 
+      # TODO. Test a simple R file
+      run: |
+          docker run  nrel/openstudio-r:latest  R --version
+    - name: deploy docker
+      if: ${{ success() }} &&  
+         github.ref == 'refs/heads/master' ||
+         github.ref == 'refs/heads/develop' ||
+         github.ref == 'refs/heads/custom_branch_name'
+      shell: bash 
+      run: ./deploy_docker.sh
+      env:
+        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
