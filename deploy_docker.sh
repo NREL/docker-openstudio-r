@@ -4,11 +4,11 @@ IMAGETAG=skip
 if [ "${GITHUB_REF}" == "refs/heads/develop" ]; then
     IMAGETAG=develop
 elif [ "${GITHUB_REF}" == "refs/heads/master" ]; then
-    VERSION=$( docker run -it openstudio-r:latest printenv R_VERSION )
+    VERSION=$( docker run openstudio-r:latest printenv R_VERSION )
     OUT=$?
 
     # Extended version (independent of $OUT)
-    VERSION_EXT=$( docker run -it openstudio-r:latest Rscript version.R | grep -o '".*"' | tr -d '"' )
+    VERSION_EXT=$( docker run openstudio-r:latest Rscript version.R | grep -o '".*"' | tr -d '"' )
 
     if [ $OUT -eq 0 ]; then
         # strip off the \r that is in the result of the docker run command
