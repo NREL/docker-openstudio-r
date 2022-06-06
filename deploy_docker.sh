@@ -26,7 +26,7 @@ if [ "${IMAGETAG}" != "skip" ] && [[ -z "${GITHUB_BASE_REF}" ]]; then
 
     echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
     #Image has already been built from previous step so just tag it
-    docker tag openstudio-r:latest nrel/openstudio:$IMAGETAG; (( exit_status = exit_status || $? ))
+    docker tag openstudio-r:latest nrel/openstudio-r:$IMAGETAG; (( exit_status = exit_status || $? ))
     docker tag openstudio-r:latest nrel/openstudio-r:latest; (( exit_status = exit_status || $? ))
     docker push nrel/openstudio-r:$IMAGETAG
     docker push nrel/openstudio-r:latest
