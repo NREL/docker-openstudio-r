@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 IMAGETAG=skip
-if [ "${TRAVIS_BRANCH}" == "develop" ]; then
+if [ "${GITHUB_REF}" == "refs/heads/develop" ]; then
     IMAGETAG=develop
-elif [ "${TRAVIS_BRANCH}" == "master" ]; then
+elif [ "${GITHUB_REF}" == "refs/heads/master" ]; then
     VERSION=$( docker run -it openstudio-r:latest printenv R_VERSION )
     OUT=$?
 
@@ -20,11 +20,14 @@ elif [ "${TRAVIS_BRANCH}" == "master" ]; then
     fi
 fi
 
-if [ "${IMAGETAG}" != "skip" ] && [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then
+# GITHUB_BASE_REF is only set on Pull Request events. Do not build those
+if [ "${IMAGETAG}" != "skip" ] && [[ -z "${GITHUB_BASE_REF}" ]]; then
     echo "Tagging image as $IMAGETAG"
 
-    docker login -u $DOCKER_USER -p $DOCKER_PASS
-    docker build -f Dockerfile -t nrel/openstudio-r:$IMAGETAG -t nrel/openstudio-r:latest .
+    echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+    #Image has already been built from previous step so just tag it
+    docker tag openstudio-r:latest nrel/openstudio:$IMAGETAG; (( exit_status = exit_status || $? ))
+    docker tag openstudio-r:latest nrel/openstudio-r:latest; (( exit_status = exit_status || $? ))
     docker push nrel/openstudio-r:$IMAGETAG
     docker push nrel/openstudio-r:latest
 else
