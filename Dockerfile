@@ -1,7 +1,7 @@
 # AUTHOR:           Nicholas Long
 # DESCRIPTION:      OpenStudio R Base Container
 
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 MAINTAINER Nicholas Long nicholas.long@nrel.gov
 
 # Install a bunch of dependencies for building R
@@ -82,11 +82,21 @@ RUN apt-get update \
         mpack \
     && rm -rf /var/lib/apt/lists/*
 
-RUN curl -SLO https://cache.ruby-lang.org/pub/ruby/2.7/ruby-2.7.2.tar.gz \
-    && tar -xvzf ruby-2.7.2.tar.gz \
-    && cd ruby-2.7.2 \
-    && ./configure \
-    && make && make install 
+RUN echo "Start by installing openssl 1.1.1o" &&\
+    wget https://www.openssl.org/source/old/1.1.1/openssl-1.1.1o.tar.gz &&\
+    tar xfz openssl-1.1.1o.tar.gz && cd openssl-1.1.1o &&\
+    ./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl '-Wl,-rpath,$(LIBRPATH)' &&\
+    make --quiet -j $(nproc) && make install --quiet && rm -Rf openssl-1.1.o*
+
+RUN echo "Installing Ruby 2.7.2 via RVM" &&\
+    curl -sSL https://rvm.io/mpapis.asc | gpg --import - &&\
+    curl -sSL https://rvm.io/pkuczynski.asc | gpg --import - &&\
+    curl -sSL https://get.rvm.io | bash -s stable &&\
+    usermod -a -G rvm root &&\
+    /usr/local/rvm/bin/rvm install 2.7.2 --with-openssl-dir=/usr/local/ssl/ -- --enable-static &&\
+    /usr/local/rvm/bin/rvm --default use 2.7.2
+
+ENV PATH="/usr/local/rvm/rubies/ruby-2.7.2/bin:${PATH}"
 
 #### Build R and install R packages.
 ENV R_VERSION 4.2.0
@@ -99,7 +109,7 @@ RUN curl -fSL -o R.tar.gz "http://cran.r-project.org/src/base/R-$R_MAJOR_VERSION
 	&& rm R.tar.gz \
 	&& cd /usr/src/R \
     && sed -i 's/NCONNECTIONS 128/NCONNECTIONS 2560/' src/main/connections.c \
-    && ./configure --enable-R-shlib CC=gcc-9 CXX=g++-9 \
+    && ./configure --enable-R-shlib CC=gcc-11 CXX=g++-11 \
     && make -j$(nproc) \
     && make install
 
