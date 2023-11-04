@@ -86,7 +86,9 @@ RUN echo "Start by installing openssl 1.1.1o" &&\
     wget https://www.openssl.org/source/old/1.1.1/openssl-1.1.1o.tar.gz &&\
     tar xfz openssl-1.1.1o.tar.gz && cd openssl-1.1.1o &&\
     ./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl '-Wl,-rpath,$(LIBRPATH)' &&\
-    make --quiet -j $(nproc) && make install --quiet && rm -Rf openssl-1.1.o*
+    make --quiet -j $(nproc) && make install --quiet && rm -Rf openssl-1.1.o* &&\
+    rm -rf /usr/local/ssl/certs &&\
+    ln -s /etc/ssl/certs /usr/local/ssl/certs
 
 RUN echo "Installing Ruby 2.7.2 via RVM" &&\
     curl -sSL https://rvm.io/mpapis.asc | gpg --import - &&\
