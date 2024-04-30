@@ -1,7 +1,7 @@
 # AUTHOR:           Nicholas Long
 # DESCRIPTION:      OpenStudio R Base Container
 
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 MAINTAINER Nicholas Long nicholas.long@nrel.gov
 
 # Install a bunch of dependencies for building R
@@ -82,16 +82,22 @@ RUN apt-get update \
         mpack \
     && rm -rf /var/lib/apt/lists/*
 
-RUN curl -SLO https://cache.ruby-lang.org/pub/ruby/2.7/ruby-2.7.2.tar.gz \
-    && tar -xvzf ruby-2.7.2.tar.gz \
-    && cd ruby-2.7.2 \
+RUN apt update && apt install -y libyaml-dev ruby-full 
+# RUN apt-get install ca-certificates 
+#RUN pwd
+RUN curl -SLO -k https://cache.ruby-lang.org/pub/ruby/3.2/ruby-3.2.2.tar.gz \
+    && tar -xvzf ruby-3.2.2.tar.gz \
+    && cd ruby-3.2.2 \
     && ./configure \
     && make && make install 
+RUN rm -rf ruby*
+
+ENV PATH="/usr/local/rvm/rubies/ruby-3.2.2/bin:${PATH}"
 
 #### Build R and install R packages.
-ENV R_VERSION 4.2.0
+ENV R_VERSION 4.4.0
 ENV R_MAJOR_VERSION 4
-ENV R_SHA 38eab7719b7ad095388f06aa090c5a2b202791945de60d3e2bb0eab1f5097488
+ENV R_SHA ace4125f9b976d2c53bcc5fca30c75e30d4edc401584859cbadb080e72b5f030
 RUN curl -fSL -o R.tar.gz "http://cran.r-project.org/src/base/R-$R_MAJOR_VERSION/R-$R_VERSION.tar.gz" \
     && echo "$R_SHA R.tar.gz" | sha256sum -c - \
     && mkdir /usr/src/R \
@@ -99,7 +105,7 @@ RUN curl -fSL -o R.tar.gz "http://cran.r-project.org/src/base/R-$R_MAJOR_VERSION
 	&& rm R.tar.gz \
 	&& cd /usr/src/R \
     && sed -i 's/NCONNECTIONS 128/NCONNECTIONS 2560/' src/main/connections.c \
-    && ./configure --enable-R-shlib CC=gcc-9 CXX=g++-9 \
+    && ./configure --enable-R-shlib CC=gcc-11 CXX=g++-11 \
     && make -j$(nproc) \
     && make install
 
